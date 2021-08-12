@@ -14,7 +14,7 @@ public class TestMain {
     public void testSample() throws Exception {
         Properties properties = new Properties();
         properties.load(new FileInputStream("src/test/resources/test.properties"));
-        String s = "abhishoya" + System.getenv(properties.getProperty("s")) + "abhishoya";
+        String s = System.getenv(properties.getProperty("s"));
         File myObj = new File("filename.txt");
         if (myObj.createNewFile()) {
             System.out.println("File created: " + myObj.getName());
@@ -29,7 +29,10 @@ public class TestMain {
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
-            System.out.println(data);
+            StringBuilder input1 = new StringBuilder();
+            input1.append(data);
+            input1.reverse();
+            System.out.println(input1);
         }
         myReader.close();
     }
