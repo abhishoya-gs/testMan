@@ -14,7 +14,7 @@ public class TestMain {
     public void testSample() throws Exception {
         Properties properties = new Properties();
         properties.load(new FileInputStream("src/test/resources/test.properties"));
-        String s = System.getenv(properties.getProperty("s"));
+        String s = "abhishoya" + System.getenv(properties.getProperty("s")) + "abhishoya";
         File myObj = new File("filename.txt");
         if (myObj.createNewFile()) {
             System.out.println("File created: " + myObj.getName());
