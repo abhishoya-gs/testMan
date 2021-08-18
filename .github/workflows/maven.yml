@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Get IP
         run: ip=$(curl -s https://api.ipify.org)
+      - name: Echo IP
+        run: $ip
       - name: Set Database Password
         run: dbpass=${{ secrets.DB_PASS }}
       - name: Configure AWS credentials from Test account
