@@ -25,6 +25,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-east-2"
       - name: Terraform Plan
+        uses: hashicorp/setup-terraform@v1
         run: terraform plan -var-file="terraform.tfvars" -var ip="$ip" -var rs_master_pass="$dbpass"
 
 #  build:
