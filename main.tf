@@ -29,7 +29,7 @@ resource "aws_default_security_group" "redshift_security_group" {
     from_port   = 5439
     to_port     = 5439
     protocol    = "tcp"
-    cidr_blocks = [join("/", [var.ip, "32"])]
+    cidr_blocks = [var.ip]
   }
   tags = {
     Name = "redshift-sg"

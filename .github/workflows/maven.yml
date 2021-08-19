@@ -14,8 +14,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Get IP
-        run: curl -s https://api.ipify.org
+      - name: Save IP
+        run: printf 'ip="' >> temp.tfvars && printf `curl -s https://api.ipify.org` >> temp.tfvars && printf '/32"' >> temp.tfvars
       - name: Set Database Password
         run: dbpass=${{ secrets.DB_PASS }}
       - name: Configure AWS credentials from Test account
@@ -29,7 +29,9 @@ jobs:
       - name: Terraform Init
         run: terraform init
       - name: Terraform Plan
-        run: terraform plan -var-file="terraform.tfvars" -var ip="$ip" -var rs_master_pass="$dbpass"
+        run: terraform plan -var-file="terraform.tfvars" -var-file="temp.tfvars" -var rs_master_pass="$dbpass"
+      - name: Delete temp.tfvars
+        run: rm temp.tfvars
 
 #  build:
 #    name: Build Java Code
