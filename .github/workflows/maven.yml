@@ -16,8 +16,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Save IP
         run: printf 'ip="' >> temp.tfvars && printf `curl -s https://api.ipify.org` >> temp.tfvars && printf '/32"' >> temp.tfvars
-      - name: Set Database Password
-        run: TF_VAR_rs_master_pass=${{ secrets.DB_PASS }}
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -30,6 +28,8 @@ jobs:
         run: terraform init
       - name: Terraform Plan
         run: terraform plan -var-file="terraform.tfvars" -var-file="temp.tfvars"
+        env:
+          TF_VAR_rs_master_pass: ${{ secrets.DB_PASS }}
       - name: Delete temp.tfvars
         run: rm temp.tfvars
 
