@@ -27,11 +27,9 @@ jobs:
       - name: Terraform Init
         run: terraform init
       - name: Terraform Plan
-        run: terraform plan -var-file="terraform.tfvars" -var-file="temp.tfvars"
+        run: terraform apply -auto-approve -var-file="terraform.tfvars" -var-file="temp.tfvars"
         env:
           TF_VAR_rs_master_pass: ${{ secrets.DB_PASS }}
-      - name: Delete temp.tfvars
-        run: rm temp.tfvars
 
 #  build:
 #    name: Build Java Code
@@ -47,16 +45,18 @@ jobs:
 #        run: mvn -B package --file pom.xml
 #        env:
 #          aws_key: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
-#  destroy:
-#    name: Destroy Redshift Cluster
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#      - name: Configure AWS credentials from Test account
-#        uses: aws-actions/configure-aws-credentials@v1
-#        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#      - name: Terraform Destroy
-#        run: terraform destroy
+  destroy:
+    name: Destroy Redshift Cluster
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve -var-file="terraform.tfvars" -var-file="temp.tfvars"
+      - name: Delete temp.tfvars
+        run: rm temp.tfvars
