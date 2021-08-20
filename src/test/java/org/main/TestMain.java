@@ -31,7 +31,7 @@ public class TestMain {
             Properties props = new Properties();
             props.setProperty("user", MasterUsername);
             props.setProperty("password", MasterUserPassword);
-            conn = DriverManager.getConnection(dbURL);
+            conn = DriverManager.getConnection(dbURL, props);
             //Try a simple query.
             System.out.println("Listing system tables...");
             stmt = conn.createStatement();
