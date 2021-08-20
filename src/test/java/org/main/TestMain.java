@@ -14,6 +14,8 @@ public class TestMain {
     public void testSample() throws Exception {
         Properties properties = new Properties();
         properties.load(new FileInputStream("src/test/resources/test.properties"));
+        String redshift_endpoint = System.getenv("redshift_endpoint");
+        System.out.println(redshift_endpoint);
         String s = System.getenv(properties.getProperty("s"));
         File myObj = new File("filename.txt");
         if (myObj.createNewFile()) {
