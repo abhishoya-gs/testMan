@@ -1,1 +1,4 @@
 target/
+*.tfstate
+*.tfstate.backup
+*.log

@@ -15,35 +15,28 @@ import java.util.Scanner;
 
 public class TestMain {
 
-    static final String dbURL = System.getenv("redshift_endpoint") + "/dev";
+    static final String dbURL = "jdbc:redshift://"+System.getenv("redshift_endpoint") + "/sampledb";
     static final String MasterUsername = "rootuser";
     static final String MasterUserPassword = System.getenv("rs_master_pass");
 
     @Test
-    public void RedshiftConnection(String[] args) throws Exception{
+    public void TestRedshiftConnection() throws Exception{
         Connection conn = null;
         Statement stmt = null;
         try{
-            //Dynamically load driver at runtime.
-            //Redshift JDBC 4.1 driver: com.amazon.redshift.jdbc41.Driver
-            //Redshift JDBC 4 driver: com.amazon.redshift.jdbc4.Driver
             Class.forName("com.amazon.redshift.jdbc.Driver");
 
-            //Open a connection and define properties.
+            System.out.println(dbURL + "\n" + MasterUsername + "\n"+ MasterUserPassword);
             System.out.println("Connecting to database...");
             Properties props = new Properties();
-
-            //Uncomment the following line if using a keystore.
-            //props.setProperty("ssl", "true");
             props.setProperty("user", MasterUsername);
             props.setProperty("password", MasterUserPassword);
-            conn = DriverManager.getConnection(dbURL, props);
-
+            conn = DriverManager.getConnection(dbURL);
             //Try a simple query.
             System.out.println("Listing system tables...");
             stmt = conn.createStatement();
             String sql;
-            sql = "select * from information_schema.tables;";
+            sql = "select * from information_schema.tables limit 5;";
             ResultSet rs = stmt.executeQuery(sql);
 
             //Get the data from the result set.
