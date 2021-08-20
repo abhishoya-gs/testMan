@@ -100,7 +100,7 @@ resource "aws_redshift_cluster" "default" {
   depends_on = [
     aws_vpc.redshift_vpc,
     aws_default_security_group.redshift_security_group,
-    aws_redshift_subnet_group.redshift_subnet_group
+    aws_redshift_subnet_group.redshift_subnet_group,
     aws_internet_gateway.redshift_vpc_gw
   ]
 }
